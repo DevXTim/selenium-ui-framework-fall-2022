@@ -1,6 +1,8 @@
 package APIpractice;
 
-import io.restassured.RestAssured;
+import APIpractice.pojos.UserPojo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -198,6 +200,50 @@ public class CRUDTest extends RESTBase {
                 () -> assertEquals(nameUpdated, responseGetUserByIdAfterUpdate.jsonPath().getString("name"), "Names are not the same"),
                 () -> assertEquals(emailUpdated, responseGetUserByIdAfterUpdate.jsonPath().getString("email"), "Emails are not the same"),
                 () -> assertEquals("active", responseGetUserByIdAfterUpdate.jsonPath().getString("status"), "Statuses are not the same")
+        );
+    }
+
+
+
+    // create user -> post request / json body with fields +
+    // get user by id
+    // assertions
+    @Test
+    public void createUserTestUsingGson() {
+        // Created initial user without ID, cause ID is assigned by the system
+        UserPojo createUserBody = new UserPojo();
+        createUserBody.setName(FAKER.name().fullName());
+        createUserBody.setEmail(FAKER.internet().emailAddress());
+        createUserBody.setGender("female");
+        createUserBody.setStatus("active");
+
+        // Importing lib for de/serialization and settings you provide for UserPojo.class (Expose annotation settings)
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        // Sending post request to create user, serializing initial user (without ID) to JSON
+        Response createUserResponse = restClient.createUser(AUTH, gson.toJson(createUserBody));
+
+        // Assumption that user has been created
+        Assumptions.assumeTrue(201 == createUserResponse.getStatusCode());
+
+        // Deserializing the response from create user to createdUserFromPost variable, because you need ID for further check
+        UserPojo createdUserFromPost = gson.fromJson(createUserResponse.asString(), UserPojo.class);
+
+        // Read a user by the ID that you got from deserializing the response from create request
+        Response getUserById = restClient.getUserById(AUTH, createdUserFromPost.getId() + "");
+
+        // Deserializing the Read response to Object in order to validate if your initial user and your user
+        // from the DB or system has identical values
+        UserPojo readUserFromGet = gson.fromJson(getUserById.asString(), UserPojo.class);
+
+        // Assertions of values of initial user and the user from getUserById request
+        assertAll(
+                () -> assertEquals(201, createUserResponse.getStatusCode()),
+                () -> assertEquals(200, getUserById.getStatusCode()),
+                () -> assertEquals(createUserBody.getName(), readUserFromGet.getName()),
+                () -> assertEquals(createUserBody.getEmail(), readUserFromGet.getEmail()),
+                () -> assertEquals(createUserBody.getGender(), readUserFromGet.getGender()),
+                () -> assertEquals(createUserBody.getStatus(), readUserFromGet.getStatus())
         );
     }
 }

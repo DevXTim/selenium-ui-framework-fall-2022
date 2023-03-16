@@ -2,7 +2,6 @@ package APIpractice;
 
 import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class RESTBase {
