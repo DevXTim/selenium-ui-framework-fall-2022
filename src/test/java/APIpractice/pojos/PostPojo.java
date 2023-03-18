@@ -1,5 +1,6 @@
 package APIpractice.pojos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostPojo {
+    // Jackson annotation, same as Expose. Used to set settings for including
+    // or excluding fields on de-serialization
+    // access = JsonProperty.Access.READ_ONLY -> deserialization
+    // access = JsonProperty.Access.WRITE_ONLY -> serialization
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int userId;
     private String title;
     private String body;
