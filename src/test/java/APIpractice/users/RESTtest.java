@@ -1,4 +1,4 @@
-package APIpractice;
+package APIpractice.users;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

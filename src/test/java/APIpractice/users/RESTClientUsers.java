@@ -1,10 +1,10 @@
-package APIpractice;
+package APIpractice.users;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-public class RESTClient {
+public class RESTClientUsers {
 
     // Save post response to variable
     // We will need status code of response

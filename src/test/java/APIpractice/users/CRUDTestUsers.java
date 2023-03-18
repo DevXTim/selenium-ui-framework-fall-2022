@@ -1,5 +1,6 @@
-package APIpractice;
+package APIpractice.users;
 
+import APIpractice.RESTBase;
 import APIpractice.pojos.UserPojo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-public class CRUDTest extends RESTBase {
+public class CRUDTestUsers extends RESTBase {
 
     @Test
     public void getUsersTest() {
         // Response interface is where we store our response results
         // * status code, * body, * headers
-        Response responseListUsers = restClient.getUsers(AUTH);
+        Response responseListUsers = restClientUsers.getUsers(AUTH);
 
         // Assert your tests
         assertAll(
@@ -46,7 +47,7 @@ public class CRUDTest extends RESTBase {
         // Save post response to variable
         // We will need status code of response
         // We will need body of response
-        Response responseCreateUser = restClient.createUser(AUTH, body);
+        Response responseCreateUser = restClientUsers.createUser(AUTH, body);
 
         // Assumptions to find issues with your implementation
         // Assertions to find issues with the application under test
@@ -56,7 +57,7 @@ public class CRUDTest extends RESTBase {
         // We need it to make sure 100% that our user has been created and saved to DB
         // We need status code
         // We need body of response
-        Response responseGetUserById = restClient.getUserById(AUTH, responseCreateUser.jsonPath().getString("id"));
+        Response responseGetUserById = restClientUsers.getUserById(AUTH, responseCreateUser.jsonPath().getString("id"));
 
         // Assert
         assertAll(
@@ -104,7 +105,7 @@ public class CRUDTest extends RESTBase {
         // Save post response to variable
         // We will need status code of response
         // We will need body of response
-        Response responseCreateUser = restClient.createUser(AUTH, body);
+        Response responseCreateUser = restClientUsers.createUser(AUTH, body);
 
         String userId = responseCreateUser.jsonPath().getString("id");
 
@@ -116,17 +117,17 @@ public class CRUDTest extends RESTBase {
         // We need it to make sure 100% that our user has been created and saved to DB
         // We need status code
         // We need body of response
-        Response responseGetUserById = restClient.getUserById(AUTH, userId);
+        Response responseGetUserById = restClientUsers.getUserById(AUTH, userId);
 
         Assumptions.assumeTrue(responseGetUserById.getStatusCode() == 200, "Get user didn't return 200 status code");
 
         // Save delete response in variable
-        Response responseDeleteUser = restClient.deleteUserById(AUTH, userId);
+        Response responseDeleteUser = restClientUsers.deleteUserById(AUTH, userId);
 
         Assumptions.assumeTrue(responseDeleteUser.getStatusCode() == 204, "Delete user didn't return 204 status code");
 
         // Save get response after delete
-        Response responseGetUserByIdAfterDelete = restClient.getUserById(AUTH, userId);
+        Response responseGetUserByIdAfterDelete = restClientUsers.getUserById(AUTH, userId);
 
         // Assert
         assertAll(
@@ -157,7 +158,7 @@ public class CRUDTest extends RESTBase {
         // Save post response to variable
         // We will need status code of response
         // We will need body of response
-        Response responseCreateUser = restClient.createUser(AUTH, body);
+        Response responseCreateUser = restClientUsers.createUser(AUTH, body);
 
         String userId = responseCreateUser.jsonPath().getString("id");
 
@@ -169,7 +170,7 @@ public class CRUDTest extends RESTBase {
         // We need it to make sure 100% that our user has been created and saved to DB
         // We need status code
         // We need body of response
-        Response responseGetUserById = restClient.getUserById(AUTH, userId);
+        Response responseGetUserById = restClientUsers.getUserById(AUTH, userId);
 
         Assumptions.assumeTrue(responseGetUserById.getStatusCode() == 200, "Get user didn't return 200 status code");
 
@@ -183,12 +184,12 @@ public class CRUDTest extends RESTBase {
                 "}";
 
         // Saved put request to the response variable
-        Response responseUpdateUserById = restClient.updateUserById(AUTH, bodyUpdate, userId);
+        Response responseUpdateUserById = restClientUsers.updateUserById(AUTH, bodyUpdate, userId);
 
         Assumptions.assumeTrue(responseUpdateUserById.getStatusCode() == 200, "Update user didn't return 200 status code");
 
         // Save get response after update
-        Response responseGetUserByIdAfterUpdate = restClient.getUserById(AUTH, userId);
+        Response responseGetUserByIdAfterUpdate = restClientUsers.getUserById(AUTH, userId);
 
         // Assert
         assertAll(
@@ -221,7 +222,7 @@ public class CRUDTest extends RESTBase {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         // Sending post request to create user, serializing initial user (without ID) to JSON
-        Response createUserResponse = restClient.createUser(AUTH, gson.toJson(createUserBody));
+        Response createUserResponse = restClientUsers.createUser(AUTH, gson.toJson(createUserBody));
 
         // Assumption that user has been created
         Assumptions.assumeTrue(201 == createUserResponse.getStatusCode());
@@ -230,7 +231,7 @@ public class CRUDTest extends RESTBase {
         UserPojo createdUserFromPost = gson.fromJson(createUserResponse.asString(), UserPojo.class);
 
         // Read a user by the ID that you got from deserializing the response from create request
-        Response getUserById = restClient.getUserById(AUTH, createdUserFromPost.getId() + "");
+        Response getUserById = restClientUsers.getUserById(AUTH, createdUserFromPost.getId() + "");
 
         // Deserializing the Read response to Object in order to validate if your initial user and your user
         // from the DB or system has identical values
