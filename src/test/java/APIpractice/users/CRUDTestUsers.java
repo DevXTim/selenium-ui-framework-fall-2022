@@ -4,6 +4,7 @@ import APIpractice.RESTBase;
 import APIpractice.pojos.UserPojo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,6 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CRUDTestUsers extends RESTBase {
 
     @Test
@@ -20,6 +26,9 @@ public class CRUDTestUsers extends RESTBase {
         // Response interface is where we store our response results
         // * status code, * body, * headers
         Response responseListUsers = restClientUsers.getUsers(AUTH);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        UserPojo[] listOfUserObj = gson.fromJson(responseListUsers.asString(), UserPojo[].class);
+        List<UserPojo> arrayList = Arrays.stream(listOfUserObj).collect(Collectors.toList());
 
         // Assert your tests
         assertAll(

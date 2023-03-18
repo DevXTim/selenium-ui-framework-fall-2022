@@ -1,5 +1,6 @@
 package APIpractice.pojos;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,8 @@ public class PostPojo {
     // access = JsonProperty.Access.WRITE_ONLY -> serialization
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY, value = "user_id")
+//    @JsonAlias({"user_id", "userId"})
     private int userId;
     private String title;
     private String body;

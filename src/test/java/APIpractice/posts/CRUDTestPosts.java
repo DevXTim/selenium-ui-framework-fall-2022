@@ -13,6 +13,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class CRUDTestPosts extends RESTBase {
 
     @Test
@@ -58,6 +60,9 @@ public class CRUDTestPosts extends RESTBase {
         System.out.println(createPostResponse.asString());
         System.out.println(createPostResponse.getStatusCode());
 
+        // Deserialization using jackson
+        PostPojo postResponse = objectMapper.readValue(createPostResponse.asString(), PostPojo.class);
+        System.out.println(postResponse);
 
         // Arrange pojo with annotations
 
