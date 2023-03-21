@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class CRUDTestPosts extends RESTBase {
+    // Testng and cucumber not analogs
+    // testng and junit for validations
+    // cucumber for bdd structure
 
     @Test
     public void createPostTest() throws JsonProcessingException {
