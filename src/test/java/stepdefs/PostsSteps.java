@@ -3,14 +3,14 @@ package stepdefs;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import services.UserServices;
+import APIpractice.UsersServices;
 
 public class PostsSteps {
-    private UserServices userServices = new UserServices();
+    private UsersServices usersServices = new UsersServices();
 
     @Given("creates a new user with name {string}")
     public void creates_a_new_user_with_name(String userName) {
-        userServices.createUserWithName(userName);
+        usersServices.createUserWithName(userName);
     }
 
     @When("user creates a post with title {string} and body {string} for user {string}")

@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.HomePage;
 import pages.LoginPage;
+import pojos.RegisterUser;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,6 @@ public class LoginSteps {
     @When("sends request to create user with following fields:")
     public void sends_request_to_create_user_with_following_fields(List<Map<String, String>> registerValues) {
         String token = hooks.getAuthToken();
-
+        RegisterUser newUser = new RegisterUser(registerValues.get(0));
     }
 }
