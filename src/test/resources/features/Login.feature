@@ -11,4 +11,4 @@ Feature: Login feature
   Scenario: Register new user via api and check user created
     When sends request to create user with following fields:
       | address      | country | dob        | emailAddress | firstName | gender | homePhone  | lastName      | locality  | mobilePhone | password        | postalCode | region | ssn      | title | workPhone |
-      | fakerAddress | US      | 12/12/2000 | fakerEmail   | user1     | female | fakerPhone | fakerLastName | fakerCity | [blank]     | MatchFormat123! | 55555      | LA     | fakerSSN | Mr.   | [blank]   |
+      | fakerAddress | US      | 12/12/2000 | fakerEmail   | user1     | F      | fakerPhone | fakerLastName | fakerCity | [blank]     | MatchFormat123! | 55555      | LA     | fakerSSN | Mr.   | [blank]   |

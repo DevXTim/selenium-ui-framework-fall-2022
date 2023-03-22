@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import pages.HomePage;
 import pages.LoginPage;
 import pojos.RegisterUser;
+import services.UserServices;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class LoginSteps {
     LoginPage loginPage = new LoginPage();
     HomePage homePage = new HomePage();
     Hooks hooks = new Hooks();
+    UserServices userServices = new UserServices();
     @Given("user enters valid {string} and {string}")
     public void user_enters_valid_username_and_password(String username, String password) {
         loginPage.enterValidLoginInfo(username, password);
@@ -33,5 +35,6 @@ public class LoginSteps {
     public void sends_request_to_create_user_with_following_fields(List<Map<String, String>> registerValues) {
         String token = hooks.getAuthToken();
         RegisterUser newUser = new RegisterUser(registerValues.get(0));
+        userServices.createNewUserViaApi(token, newUser);
     }
 }
