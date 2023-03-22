@@ -12,3 +12,4 @@ Feature: Login feature
     When sends request to create user with following fields:
       | address      | country | dob        | emailAddress | firstName | gender | homePhone  | lastName      | locality  | mobilePhone | password        | postalCode | region | ssn      | title | workPhone |
       | fakerAddress | US      | 12/12/2000 | fakerEmail   | user1     | F      | fakerPhone | fakerLastName | fakerCity | [blank]     | MatchFormat123! | 55555      | LA     | fakerSSN | Mr.   | [blank]   |
+    Then validate user has been created and status code is valid

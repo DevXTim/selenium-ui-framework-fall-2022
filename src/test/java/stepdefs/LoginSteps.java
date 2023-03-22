@@ -34,7 +34,6 @@ public class LoginSteps {
     @When("sends request to create user with following fields:")
     public void sends_request_to_create_user_with_following_fields(List<Map<String, String>> registerValues) {
         String token = hooks.getAuthToken();
-        RegisterUser newUser = new RegisterUser(registerValues.get(0));
-        userServices.createNewUserViaApi(token, newUser);
+        userServices.createNewUserViaApi(token, registerValues.get(0));
     }
 }
